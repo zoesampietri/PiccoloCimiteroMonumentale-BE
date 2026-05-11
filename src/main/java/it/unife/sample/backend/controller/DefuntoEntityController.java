@@ -1,7 +1,7 @@
 package it.unife.sample.backend.controller;
 
-import it.unife.sample.backend.model.SampleEntity;
-import it.unife.sample.backend.service.SampleEntityService;
+import it.unife.sample.backend.model.DefuntoEntity;
+import it.unife.sample.backend.service.DefuntoEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,30 +11,30 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/sample-entities")
-public class SampleEntityController {
+@RequestMapping("/api/defunto-entities")
+public class DefuntoEntityController {
 
     @Autowired
-    private SampleEntityService service;
+    private DefuntoEntityService service;
 
     @GetMapping
-    public List<SampleEntity> getAll() {
+    public List<DefuntoEntity> getAll() {
         return service.findAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SampleEntity> getById(@PathVariable UUID id) {
-        Optional<SampleEntity> entity = service.findById(id);
+    public ResponseEntity<DefuntoEntity> getById(@PathVariable UUID id) {
+        Optional<DefuntoEntity> entity = service.findById(id);
         return entity.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public SampleEntity create(@RequestBody SampleEntity entity) {
+    public DefuntoEntity create(@RequestBody DefuntoEntity entity) {
         return service.save(entity);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<SampleEntity> update(@PathVariable UUID id, @RequestBody SampleEntity entity) {
+    public ResponseEntity<DefuntoEntity> update(@PathVariable UUID id, @RequestBody DefuntoEntity entity) {
         if (!service.findById(id).isPresent()) {
             return ResponseEntity.notFound().build();
         }

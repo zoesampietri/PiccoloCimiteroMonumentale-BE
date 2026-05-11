@@ -1,7 +1,7 @@
 package it.unife.sample.backend.service;
 
-import it.unife.sample.backend.model.SampleEntity;
-import it.unife.sample.backend.repository.SampleEntityRepository;
+import it.unife.sample.backend.model.DefuntoEntity;
+import it.unife.sample.backend.repository.DefuntoEntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,20 +10,20 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class SampleEntityService {
+public class DefuntoEntityService {
 
     @Autowired
-    private SampleEntityRepository repository;
+    private DefuntoEntityRepository repository;
 
-    public List<SampleEntity> findAll() {
+    public List<DefuntoEntity> findAll() {
         return repository.findAll();
     }
 
-    public Optional<SampleEntity> findById(UUID id) {
+    public Optional<DefuntoEntity> findById(UUID id) {
         return repository.findById(id);
     }
 
-    public SampleEntity save(SampleEntity entity) {
+    public DefuntoEntity save(DefuntoEntity entity) {
         return repository.save(entity);
     }
 
