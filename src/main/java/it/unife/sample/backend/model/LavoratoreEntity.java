@@ -59,7 +59,7 @@ public class LavoratoreEntity {
     @Column(name = "telefono", length = 45)
     private String telefono;
 
-    @Column(name = "mail", length = 45)
+    @Column(name = "mail", nullable = false, length = 45)
     private String mail;
 
     @Column(name = "ruolo", nullable = false, length = 45)
