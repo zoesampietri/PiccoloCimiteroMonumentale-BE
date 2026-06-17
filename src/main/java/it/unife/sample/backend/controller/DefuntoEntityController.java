@@ -6,15 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 
 @RestController
-@RequestMapping("/api/defunto-entities")
+@RequestMapping("/api/defunti")
 public class DefuntoEntityController {
 
     @Autowired
@@ -26,37 +25,28 @@ public class DefuntoEntityController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DefuntoEntity> getById(@PathVariable UUID id) {
+    public ResponseEntity<DefuntoEntity> getById(@PathVariable String id) {
         Optional<DefuntoEntity> entity = service.findById(id);
         return entity.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public DefuntoEntity create(@Valid @RequestBody DefuntoEntity entity) {
-        // Prima di salvare l'entità voglio controllarese le date inserite hanno senso (la data di nascita deve essere prima della data di morte, e la data di sepoltura deve essere dopo la data di morte)
-        if (validaDate(entity.getDataNascita(), entity.getDataMorte(), entity.getDataSepoltura())) {
-            return service.save(entity);
-        } else {
-            throw new IllegalArgumentException("Le date inserite non sono coerenti");
-        }
+    public ResponseEntity<DefuntoEntity> create(@Valid @RequestBody DefuntoEntity entity) {
+        DefuntoEntity salvato = service.save(entity);
+        return ResponseEntity.status(HttpStatus.CREATED).body(salvato);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<DefuntoEntity> update(@PathVariable UUID id, @Valid @RequestBody DefuntoEntity entity) {
+    public ResponseEntity<DefuntoEntity> update(@PathVariable String id, @Valid @RequestBody DefuntoEntity entity) {
         if (!service.findById(id).isPresent()) {
             return ResponseEntity.notFound().build();
         }
-        
-        if (!validaDate(entity.getDataNascita(), entity.getDataMorte(), entity.getDataSepoltura())) {
-            throw new IllegalArgumentException("Le date inserite non sono coerenti");
-        }
-        
         entity.setId(id);
         return ResponseEntity.ok(service.save(entity));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable UUID id) {
+    public ResponseEntity<Void> delete(@PathVariable String id) {
         if (!service.findById(id).isPresent()) {
             return ResponseEntity.notFound().build();
         }
@@ -64,13 +54,5 @@ public class DefuntoEntityController {
         return ResponseEntity.noContent().build();
     }
 
-    private boolean validaDate(LocalDate dataNascita, LocalDate dataMorte, LocalDate dataSepoltura) {
-    if (dataNascita != null && dataMorte != null && dataNascita.isAfter(dataMorte)) {
-        return false;
-    }
-    if (dataMorte != null && dataSepoltura != null && dataSepoltura.isBefore(dataMorte)) {
-        return false;
-    }
-    return true;
-}
+   
 }
