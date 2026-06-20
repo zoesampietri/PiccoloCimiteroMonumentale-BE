@@ -1,6 +1,7 @@
 package it.unife.sample.backend.controller;
 
 import it.unife.sample.backend.dto.LoginRequest;
+import it.unife.sample.backend.dto.LoginResponse;
 import it.unife.sample.backend.model.LavoratoreEntity;
 import it.unife.sample.backend.service.LavoratoreService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,6 @@ public class LavoratoreController {
     private LavoratoreService lavoratoreService;
 
     // 1. Ottieni il profilo di un singolo lavoratore tramite la sua mail
-    // Esempio: GET http://localhost:8080/api/lavoratori/amministratore?mail=test@lavoro.com
 
     @PostMapping("/amministratore")
     public ResponseEntity<?> ottieniProfiloAmministratore(@RequestBody LoginRequest loginRequest) {
@@ -26,16 +26,15 @@ public class LavoratoreController {
         String password = loginRequest.getPassword();
         System.out.println("DEBUG - Mail ricevuta dal frontend: [" + mail + "]");
         try {
-            LavoratoreEntity lavoratore = lavoratoreService.trovaAmministratorePerMail(mail,password);
-            return ResponseEntity.ok(lavoratore);
+            LoginResponse loginResponse = lavoratoreService.trovaAmministratorePerMail(mail,password);
+            return ResponseEntity.ok(loginResponse);
         } catch (RuntimeException e) {
             System.out.println("DEBUG - Errore nel service: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 
-    // 2. Ottieni la lista di tutti i lavoratori (utile se l'utente è un admin/manager)
-    // Esempio: GET http://localhost:8080/api/lavoratori
+    // 2. Ottieni la lista di tutti i lavoratori
     @GetMapping
     public ResponseEntity<List<LavoratoreEntity>> ottieniTutti() {
         List<LavoratoreEntity> lavoratori = lavoratoreService.ottieniTuttiILavoratori();

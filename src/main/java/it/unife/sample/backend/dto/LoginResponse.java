@@ -4,13 +4,13 @@ public class LoginResponse {
     private String mail;
     private String nome;
     private String ruolo;
-    private String cf;
+    private String codiceFiscale;
 
-    public LoginResponse(String mail, String nome, String ruolo, String cf) {
+    public LoginResponse(String mail, String nome, String ruolo, String codiceFiscale) {
         this.mail = mail;
         this.nome = nome;
         this.ruolo = ruolo;
-        this.cf = cf;
+        this.codiceFiscale = codiceFiscale;
     }
 
     // Getter e Setter
@@ -20,6 +20,6 @@ public class LoginResponse {
     public void setNome(String nome) { this.nome = nome; }
     public String getRuolo() { return ruolo; }
     public void setRuolo(String ruolo) { this.ruolo = ruolo; }
-    public String getCf() { return cf; }
-    public void setCf(String cf) { this.cf = cf; }
+    public String getCodiceFiscale() { return codiceFiscale; }
+    public void setCodiceFiscale(String codiceFiscale) { this.codiceFiscale = codiceFiscale; }
 }
