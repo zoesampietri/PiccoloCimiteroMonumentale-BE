@@ -30,6 +30,18 @@ public class DefuntoEntityController {
         return entity.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/settore/{id}")
+    public List<DefuntoEntity> getBySettore(@PathVariable String id) {
+        System.out.println("DEBUG - Settore ricevuto dal frontend: [" + id + "]");
+        return service.findBySettore(id);
+    }
+
+    @GetMapping("/search")
+    public List<DefuntoEntity> search(@RequestParam(required = false) String nome, @RequestParam(required = false) String cognome) {
+        System.out.println("DEBUG - Ricerca per nome: [" + nome + "], cognome: [" + cognome + "]");
+        return service.search(nome, cognome);
+    }
+
     @PostMapping
     public ResponseEntity<DefuntoEntity> create(@Valid @RequestBody DefuntoEntity entity) {
         DefuntoEntity salvato = service.save(entity);

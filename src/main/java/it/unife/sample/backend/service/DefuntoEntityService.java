@@ -35,6 +35,22 @@ public class DefuntoEntityService {
         return defuntoRepository.findById(id);
     }
 
+    public List<DefuntoEntity> findBySettore(String settore) {
+        // devo separare il settore vero e proprio dal numero della sepoltura
+        String settoreSepoltura = settore.substring(0, 1);
+        String numeroSepoltura = settore.substring(1);
+        List<DefuntoEntity> ret = defuntoRepository.findBySettoreSepoltura(settoreSepoltura, numeroSepoltura);
+        return ret;
+    }
+
+    public List<DefuntoEntity> search(String nome, String cognome) {
+        List<DefuntoEntity> lista = defuntoRepository.search(nome, cognome);
+        for (DefuntoEntity defunto : lista) {
+            System.out.println("DEBUG - Defunto trovato: " + defunto.getNome() + " " + defunto.getCognome());
+        }
+        return lista;
+    }
+
     @Transactional
     public DefuntoEntity save(DefuntoEntity entity) {
         // Validazione delle date

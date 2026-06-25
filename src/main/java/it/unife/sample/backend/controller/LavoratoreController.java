@@ -24,7 +24,6 @@ public class LavoratoreController {
     public ResponseEntity<?> ottieniProfiloAmministratore(@RequestBody LoginRequest loginRequest) {
         String mail = loginRequest.getMail();
         String password = loginRequest.getPassword();
-        System.out.println("DEBUG - Mail ricevuta dal frontend: [" + mail + "]");
         try {
             LoginResponse loginResponse = lavoratoreService.trovaAmministratorePerMail(mail,password);
             return ResponseEntity.ok(loginResponse);

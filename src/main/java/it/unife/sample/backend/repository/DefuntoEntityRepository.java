@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+
 @Repository
 public interface DefuntoEntityRepository extends JpaRepository<DefuntoEntity, String> {
     // Aggiungi un query personalizzato per trovare l'id massimo dei defunti
@@ -13,4 +14,10 @@ public interface DefuntoEntityRepository extends JpaRepository<DefuntoEntity, St
 
     @Query("SELECT COUNT(d) FROM DefuntoEntity d WHERE d.settoreSepoltura = :settoreSepoltura AND d.idSepoltura = :idSepoltura")
     long countBySettoreSepolturaAndIdSepoltura(String settoreSepoltura, String idSepoltura);
+
+    @Query("SELECT d FROM DefuntoEntity d WHERE d.settoreSepoltura = :settoreSepoltura AND d.idSepoltura = :idSepoltura")
+    java.util.List<DefuntoEntity> findBySettoreSepoltura(String settoreSepoltura, String idSepoltura);
+
+    @Query("SELECT d FROM DefuntoEntity d WHERE d.nome LIKE %:nome% AND d.cognome LIKE %:cognome%")
+    java.util.List<DefuntoEntity> search( String nome,  String cognome);
 }
