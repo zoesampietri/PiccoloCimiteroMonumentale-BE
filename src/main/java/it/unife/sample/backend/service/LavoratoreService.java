@@ -20,7 +20,7 @@ public class LavoratoreService {
         if (!lavoratore.getPassword().equals(password)) {
             throw new RuntimeException("Password errata");
         }
-        return new LoginResponse(lavoratore.getMail(), lavoratore.getNome(), lavoratore.getRuolo(), lavoratore.getCodiceFiscale());
+        return new LoginResponse(lavoratore.getMail(), lavoratore.getNome(), lavoratore.getCognome(), lavoratore.getRuolo(), lavoratore.getCodiceFiscale());
     }
 
     public List<LavoratoreEntity> ottieniTuttiILavoratori() {
